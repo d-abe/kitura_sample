@@ -32,4 +32,24 @@ class Article : Model {
         self.comment = serialized["comment"] ?? ""
         self.createdAt = serialized["created_at"] ?? ""
     }
+
+    static func findAll() -> Articles {
+        return Articles(array: Query().results)
+    }
+}
+
+class Articles {
+    var articles : [Article]
+
+    init(array: [Article]) {
+        self.articles = array
+    }
+
+    func get() -> [Article] {
+        return articles
+    }
+
+    func toJSON() -> [[String:String]] {
+        return articles.map { $0.serialize() }
+    }
 }
