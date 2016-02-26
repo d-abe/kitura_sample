@@ -1,0 +1,15 @@
+box: dabe/kitura-ubuntu
+dev:
+  steps:
+    - internal/watch:
+      code: |
+        swift build
+        .build/debug/spectre-build
+      reload: true
+build:
+  steps:
+    - script:
+      name: build
+      code: |
+        swift build
+        .build/debug/spectre-build
