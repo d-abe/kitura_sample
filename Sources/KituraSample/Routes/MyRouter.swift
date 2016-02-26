@@ -25,6 +25,10 @@ class MyRouter : Router {
         ///
         self.get("/", handler: ArticleController.getAll)
 
+        ///
+        /// Add article
+        ///
+        self.post("/", handler: ArticleController.add)
     }
 
 }

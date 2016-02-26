@@ -5,6 +5,7 @@
 import KituraRouter
 import KituraNet
 import SwiftyJSON
+import LoggerAPI
 
 class ArticleController {
 
@@ -17,4 +18,28 @@ class ArticleController {
         next()
     }
 
+    static let add : RouterHandler = {
+        request, response, next in
+
+        if let body = request.body {
+
+            if let json = body.asJson() {
+
+                let comment = json["comment"].stringValue
+                let createdAt = json["createdAt"].stringValue
+
+                let article = Article(comment: comment, createdAt: createdAt)
+                article.save()
+
+                let result = JSON(article.serialize())
+
+                response.status(HttpStatusCode.OK).sendJson(result)
+
+            }
+        } else {
+            Log.warning("No body")
+            response.status(HttpStatusCode.BAD_REQUEST)
+        }
+
+    }
 }
