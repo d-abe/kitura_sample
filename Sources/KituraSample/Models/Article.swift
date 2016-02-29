@@ -4,22 +4,38 @@
 
 import Foundation
 import Fluent
+import LoggerAPI
 
 class Article : Model {
 
     var id: String?
     var comment: String
-    var createdAt: String
+    var createdAt: NSDate?
 
-    init(comment: String, createdAt: String) {
+    init(comment: String) {
+        self.comment = comment
+        self.createdAt = NSDate()
+    }
+
+    init(comment: String, createdAt: NSDate) {
         self.comment = comment
         self.createdAt = createdAt
     }
+    init(comment: String, createdAtStr: String) {
+        self.comment = comment
+        self.createdAt = dateFromString(createdAtStr)
+    }
 
     func serialize() -> [String:String] {
+        var createdAtStr : String? = ""
+
+        if let createdAt = self.createdAt {
+            createdAtStr = stringFromDate(createdAt)
+        }
+
         return [
             "comment": self.comment,
-            "created_at": self.createdAt
+            "created_at": createdAtStr!
         ]
     }
 
@@ -30,7 +46,12 @@ class Article : Model {
     required init(serialized: [String:String]) {
         self.id = serialized["id"]
         self.comment = serialized["comment"] ?? ""
-        self.createdAt = serialized["created_at"] ?? ""
+        if let created_at = serialized["created_at"] {
+            self.createdAt = dateFromString(created_at)
+        }
+        else {
+            self.createdAt = nil
+        }
     }
 
     static func findAll() -> Articles {

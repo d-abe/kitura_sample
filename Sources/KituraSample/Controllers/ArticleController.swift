@@ -2,6 +2,7 @@
 // Created by Daijiro Abe on 2016/02/26.
 //
 
+import Foundation
 import KituraRouter
 import KituraNet
 import SwiftyJSON
@@ -26,9 +27,8 @@ class ArticleController {
             if let json = body.asJson() {
 
                 let comment = json["comment"].stringValue
-                let createdAt = json["createdAt"].stringValue
 
-                let article = Article(comment: comment, createdAt: createdAt)
+                let article = Article(comment: comment, createdAt: NSDate())
                 article.save()
 
                 let result = JSON(article.serialize())
