@@ -11,7 +11,7 @@ extension Model {
         let dateFormatter : NSDateFormatter = NSDateFormatter()
         dateFormatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        dateFormatter.timeZone = NSTimeZone(name: "Asia/Tokyo")!
+        dateFormatter.timeZone = NSTimeZone(name: "GMT")! // APIはGMT。クライアント側で現地時間に変換させる
         return dateFormatter
     }
 
