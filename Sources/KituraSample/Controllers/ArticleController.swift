@@ -41,5 +41,6 @@ class ArticleController {
             response.status(HttpStatusCode.BAD_REQUEST)
         }
 
+        next()
     }
 }
